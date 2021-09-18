@@ -1,0 +1,25 @@
+.message {
+  max-width: 400px;
+  background-color: lightgrey;
+  border: 1px solid silver;
+  padding: 10px;
+  border-radius: 10px;
+
+  h1 {
+    font-size: 30px;
+  }
+  div {
+    color: blue;
+  }
+  .w {
+    height: 10px;
+    background-color: #231324;
+  }
+}
+.data {
+  display: flex;
+  p {
+    padding: 0 20px;
+    border: 1px solid black;
+  }
+}
