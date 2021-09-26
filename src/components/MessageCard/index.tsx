@@ -14,7 +14,7 @@ interface message {
 
 export default function MessageCard({ message, User, avatar }: message) {
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 345, marginBottom: 2 }}>
       <CardActionArea>
         <CardMedia
           component="img"
