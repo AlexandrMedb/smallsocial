@@ -1,8 +1,8 @@
 import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
-import { MainPage } from "./pages/MainPage";
+import { MainPage } from "../pages/MainPage";
 
-import { ReduxExample } from "./pages/reduxExample";
+import { ReduxExample } from "../pages/ReduxExample";
 
 export const useRoutes = (isAuthenticated: boolean) => {
   return (
