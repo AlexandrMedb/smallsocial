@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { Route } from "react-router-dom";
 
 import faker from "faker";
 
 import styles from "./index.module.scss";
-import MessageCard from "../../components/MessageCard";
+// import MessageCard from "../../components/MessageCard";
 import MessageInput from "../../components/MessageInput";
 import SideNavBar from "../../components/SideNavBar";
+import { MessageList } from "./components/MessageList";
 
 import Container from "@mui/material/Container";
 
@@ -54,14 +56,11 @@ export const MainPage = () => {
     <main className={styles.container}>
       <Container component="main" maxWidth="xs">
         <MessageInput handleSend={handleAddMessage}></MessageInput>
-        {messageList.map((el) => (
-          <MessageCard
-            key={el.id}
-            message={el.lorem}
-            User={el.user}
-            avatar={el.avatar}
-          />
-        ))}
+
+        <Route path="/">
+          <MessageList messageLi={messageList} />
+        </Route>
+
         <SideNavBar ChatTitles={ChatTitles}></SideNavBar>
       </Container>
     </main>
