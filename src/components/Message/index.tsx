@@ -20,7 +20,7 @@ export const Message = (props: message) => {
         <p>{props.age} лет </p>
       </div>
       <p
-        className={styles.w}
+        className={styles.line}
         onClick={() => {
           setColor(`#${(+color.slice(1) + 20) % 999}`);
         }}
