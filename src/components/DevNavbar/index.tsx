@@ -1,12 +1,18 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+
 // import { NavLink, useHistory } from "react-router-dom";
 
+import { selectOnlineStatus } from "../../pages/ProfilePage/reducer";
+import { useAppSelector } from "../../app/hooks";
+
 export const DevNavbar = () => {
+  const Online = useAppSelector(selectOnlineStatus);
+  let statusColor = Online ? "lightgrey" : "darkgrey";
   const style = {
     // position: "absolute",
     padding: "20px",
-    background: "lightgrey",
+    background: statusColor,
     display: "flex",
     justifyContent: "center",
     textDecoration: "none",
@@ -21,7 +27,12 @@ export const DevNavbar = () => {
         </NavLink>
       </li>
       <li>
-        <NavLink to="/example">ReuxExample</NavLink>
+        <NavLink style={{ marginRight: "20px" }} to="/example">
+          ReuxExample
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to="/profile">Profile</NavLink>
       </li>
     </ul>
   );
