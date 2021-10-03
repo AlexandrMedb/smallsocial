@@ -9,3 +9,8 @@ export interface Chat {
   name: string;
   messageList: Array<RandMessage>;
 }
+
+export interface ChatList {
+  Chatsnames: Array<string>;
+  Chats: Array<Chat>;
+}
