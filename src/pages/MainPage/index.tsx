@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { Route, useParams } from "react-router-dom";
+import { useAppSelector } from "../../app/hooks";
+
+import { selectAllChats } from "./reducer";
 
 import faker from "faker";
 
@@ -7,14 +10,23 @@ import styles from "./index.module.scss";
 import MessageInput from "../../components/MessageInput";
 import SideNavBar from "../../components/SideNavBar";
 import { MessageList } from "./components/MessageList";
-
 import Container from "@mui/material/Container";
-
-import { RandChatList } from "../../features/RandChatList";
 
 export const MainPage = () => {
   const { chatId } = useParams<{ chatId: string }>();
-  const ChatList = RandChatList();
+  const ChatList = useAppSelector(selectAllChats);
+  const ChatIndex = useMemo(() => {
+    let result = ChatList.findIndex((el) => {
+      if (el.name === chatId) {
+        return true;
+      }
+      return false;
+    });
+    if (result !== -1) {
+      return result;
+    }
+    return 0;
+  }, [ChatList, chatId]);
 
   const ChatTitles = useMemo(() => {
     return ChatList.map((el) => el.name);
@@ -56,16 +68,10 @@ export const MainPage = () => {
   }, [messageList, handleAddMessage]);
 
   useEffect(() => {
-    let ind = ChatList.findIndex((el) => {
-      if (el.name === chatId) {
-        return true;
-      }
-      return false;
-    });
-    if (ind !== -1) {
-      setMessageList(() => ChatList[ind].messageList);
+    if (ChatIndex !== -1) {
+      setMessageList(() => ChatList[ChatIndex].messageList);
     }
-  }, [chatId, ChatList]);
+  }, [ChatIndex, ChatList]);
 
   return (
     <main className={styles.container}>

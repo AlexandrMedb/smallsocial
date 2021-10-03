@@ -5,34 +5,51 @@ import { ProfilePage } from "../pages/ProfilePage/Index";
 
 import { ReduxExample } from "../pages/ReduxExample";
 
-const composePath = (...args: Array<Function | string>) =>
-  args
-    .map((item) => (typeof item === "function" ? item() : item.toString()))
-    .join("/");
+const reducer = (
+  previousValue: Function | string,
+  currentValue: Function | string,
+  index: number,
+  Array: Array<Function | string>
+) => {
+  let a =
+    typeof currentValue === "function"
+      ? currentValue()
+      : currentValue.toString();
 
-export const getHomePath = () => "";
-export const getProfilePath = () => "";
+  return index > 0 ? previousValue + "/" + a : a;
+};
 
-export const getChatsPath = () => composePath(getHomePath(), "articles");
+const reducePath = (...args: Array<Function | string>): string => {
+  const path = args.reduce(reducer, "");
+  if (path.length === 0) {
+    return "/" + path;
+  }
+  if (typeof path == "string" && path[1] === "/") {
+    return path.slice(1);
+  }
+  if (typeof path == "string") return path;
+  return "";
+};
 
-// export const getPostsByIdPath = (postId = ":postId") =>
-//   composePath(getPostsPath(), postId);
+const reduceHomePath = (path = "") => reducePath(path);
 
-// export const getPostCommentsByIdPath = (postId = ":postId") =>
-//   composePath(getPostsPath(), postId, "comments");
+const reduceProfilePath = (path = "profile") =>
+  reducePath(reduceHomePath, path);
 
-// export const getPostComments404Path = (postId = ":postId") =>
-//   composePath(getPostsPath(), postId, "404");
+const reduceExamplePath = (path = "example") =>
+  reducePath(reduceHomePath, path);
+
+const reduceChatIdPath = (path = ":chatId") => reducePath(reduceHomePath, path);
 
 export const useRoutes = (isAuthenticated: boolean) => {
   return (
     <Switch>
-      <Route exact path="/" component={MainPage} />
+      <Route exact path={reduceHomePath()} component={MainPage} />
       {/* <Route path={getPostsByIdPath()} component={Post} /> */}
-      <Route exact path="/example" component={ReduxExample} />
-      <Route exact path="/profile" component={ProfilePage} />{" "}
-      <Route exact path="/:chatId" component={MainPage} />
-      <Redirect to="/" />
+      <Route exact path={reduceExamplePath()} component={ReduxExample} />
+      <Route exact path={reduceProfilePath()} component={ProfilePage} />
+      <Route exact path={reduceChatIdPath()} component={MainPage} />
+      <Redirect to={reduceHomePath()} />
     </Switch>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useCallback } from "react";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
@@ -22,19 +22,17 @@ export default function MessageInput(props: any) {
       props.handleSend(target.value);
 
       target.value = "";
-      handleClick();
+      handleInputFocus();
     }
   };
 
-  const textInput = useRef(document.createElement("input"));
+  const textInput = useRef<HTMLInputElement>(null);
 
-  function handleClick() {
-    if (textInput.current !== null) {
-      console.dir(textInput.current);
-
+  const handleInputFocus = useCallback(() => {
+    if (textInput.current != null) {
       textInput.current.focus();
     }
-  }
+  }, [textInput]);
 
   return (
     <ThemeProvider theme={theme}>

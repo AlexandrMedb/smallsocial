@@ -1,5 +1,3 @@
-import { useMemo } from "react";
-
 import faker from "faker";
 
 const RandMessage = () => ({
@@ -9,29 +7,10 @@ const RandMessage = () => ({
   lorem: faker.lorem.text(),
 });
 
-interface RandMessage1 {
-  id: string;
-  user: string;
-  avatar: string;
-  lorem: string;
-}
+const RandChat = (ChatName: string | number) => ({
+  name: `Chat${ChatName}`,
+  messageList: Array.from({ length: 10 }).map(RandMessage),
+});
 
-interface Chat {
-  name: string;
-  messageList: Array<RandMessage1>;
-}
-
-export const RandChatList = () => {
-  let rand = useMemo(() => {
-    let result1 = Array.from({ length: 3 }).map((el, i) => {
-      let result: Chat = {
-        name: `Chat${i}`,
-        messageList: Array.from({ length: 10 }).map(RandMessage),
-      };
-      return result;
-    });
-    return result1;
-  }, []);
-
-  return rand;
-};
+export const RandChatList = () =>
+  Array.from({ length: 3 }).map((el, i) => RandChat(i));
