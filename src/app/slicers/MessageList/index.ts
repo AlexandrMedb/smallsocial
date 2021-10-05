@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "../../app/store";
-import { Chat } from "../../interface/ChatInterfaces";
+import { RootState } from "../../store";
+import { Chat } from "../../../interface/ChatInterfaces";
 
-import { RandChatList } from "../../features/RandChatList";
+import { RandChatList } from "../../../features/RandChatList";
 
 const initialState: Array<Chat> = RandChatList();
 

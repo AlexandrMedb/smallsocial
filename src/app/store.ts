@@ -1,8 +1,8 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import counterReducer from "../features/counter/counterSlice";
 
-import profileStatusReducer from "../pages/ProfilePage/reducer";
-import chatListReducer from "../pages/MainPage/reducer";
+import profileStatusReducer from "./slicers/Profile";
+import chatListReducer from "./slicers/MessageList";
 
 export const store = configureStore({
   reducer: {

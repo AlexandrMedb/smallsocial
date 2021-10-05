@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { Route, useParams } from "react-router-dom";
 import { useAppSelector } from "../../app/hooks";
 
-import { selectAllChats } from "./reducer";
+import { selectAllChats } from "../../app/slicers/MessageList";
 
 import faker from "faker";
 
