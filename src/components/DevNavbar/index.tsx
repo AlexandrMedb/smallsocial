@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 
 // import { NavLink, useHistory } from "react-router-dom";
 
-import { selectOnlineStatus } from "../../pages/ProfilePage/reducer";
+import { selectOnlineStatus } from "../../app/slicers/Profile";
 import { useAppSelector } from "../../app/hooks";
 
 export const DevNavbar = () => {

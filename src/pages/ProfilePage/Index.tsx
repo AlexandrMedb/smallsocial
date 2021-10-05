@@ -14,7 +14,7 @@ import {
   selectTesxtstatus,
   changeOnlineStatus,
   changeTesxtstatus,
-} from "./reducer";
+} from "../../app/slicers/Profile";
 
 export const ProfilePage = () => {
   const count = useAppSelector(selectCount);
