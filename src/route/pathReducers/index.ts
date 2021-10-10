@@ -32,5 +32,8 @@ export const reduceProfilePath = (path = "profile") =>
 export const reduceExamplePath = (path = "example") =>
   reducePath(reduceHomePath, path);
 
-export const reduceChatIdPath = (path = ":chatId") =>
+export const reduceChatsPath = (path = "chats") =>
   reducePath(reduceHomePath, path);
+
+export const reduceChatIdPath = (path = ":chatId") =>
+  reducePath(reduceChatsPath, path);

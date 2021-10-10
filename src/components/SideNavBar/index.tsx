@@ -13,6 +13,8 @@ import ListItemText from "@mui/material/ListItemText";
 
 import { Link } from "react-router-dom";
 
+import { reduceChatsPath } from "../../route/pathReducers";
+
 const drawerWidth = 240;
 
 export default function SideNavBar(props: { ChatTitles: Array<string> }) {
@@ -38,7 +40,12 @@ export default function SideNavBar(props: { ChatTitles: Array<string> }) {
         <Divider />
         <List>
           {chatsArray.map((text, index) => (
-            <ListItem button key={text} component={Link} to={`/${text}`}>
+            <ListItem
+              button
+              key={text}
+              component={Link}
+              to={`${reduceChatsPath()}/${text}`}
+            >
               <ListItemText primary={text} />
             </ListItem>
           ))}
