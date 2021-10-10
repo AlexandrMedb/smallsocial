@@ -1,23 +1,21 @@
-import React, { useState, useMemo, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 import faker from "faker";
 
 import styles from "./index.module.scss";
 import MessageCard from "../../components/MessageCard";
 import MessageInput from "../../components/MessageInput";
+import SideNavBar from "../../components/SideNavBar";
+
+import Container from "@mui/material/Container";
+
+import { RandChatList } from "../../features/RandChatList";
 
 export const MainPage = () => {
-  const RandMessage = () => ({
-    id: faker.datatype.uuid(),
-    user: faker.name.findName(),
-    avatar: faker.image.avatar(),
-    lorem: faker.lorem.text(),
-  });
+  let ChatList = RandChatList();
+  let randMessageList = ChatList[0].messageList;
 
-  const randMessageList = useMemo(() => {
-    let resulet = Array.from({ length: 11 }).map(RandMessage);
-    return resulet;
-  }, []);
+  let ChatTitles = ChatList.map((el) => el.name);
 
   const [messageList, setMessageList] = useState(randMessageList);
 
@@ -47,22 +45,25 @@ export const MainPage = () => {
       if (messageList[0].user !== "bot") {
         handleAddMessage("", true);
       } else {
-        console.log("bot");
+        // console.log("bot");
       }
     }, 3000);
   }, [messageList, handleAddMessage]);
 
   return (
     <main className={styles.container}>
-      <MessageInput handleSend={handleAddMessage}></MessageInput>
-      {messageList.map((el) => (
-        <MessageCard
-          key={el.id}
-          message={el.lorem}
-          User={el.user}
-          avatar={el.avatar}
-        />
-      ))}
+      <Container component="main" maxWidth="xs">
+        <MessageInput handleSend={handleAddMessage}></MessageInput>
+        {messageList.map((el) => (
+          <MessageCard
+            key={el.id}
+            message={el.lorem}
+            User={el.user}
+            avatar={el.avatar}
+          />
+        ))}
+        <SideNavBar ChatTitles={ChatTitles}></SideNavBar>
+      </Container>
     </main>
   );
 };
