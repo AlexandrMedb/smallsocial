@@ -6,6 +6,13 @@ import { NavLink } from "react-router-dom";
 import { selectOnlineStatus } from "../../app/slicers/Profile";
 import { useAppSelector } from "../../app/hooks";
 
+import {
+  reduceProfilePath,
+  reduceHomePath,
+  reduceExamplePath,
+  reduceChatsPath,
+} from "../../route/pathReducers";
+
 export const DevNavbar = () => {
   const Online = useAppSelector(selectOnlineStatus);
   let statusColor = Online ? "lightgrey" : "darkgrey";
@@ -27,12 +34,17 @@ export const DevNavbar = () => {
         </NavLink>
       </li>
       <li>
-        <NavLink style={{ marginRight: "20px" }} to="/example">
+        <NavLink style={{ marginRight: "20px" }} to={reduceChatsPath()}>
+          Chats
+        </NavLink>
+      </li>
+      <li>
+        <NavLink style={{ marginRight: "20px" }} to={reduceExamplePath()}>
           ReuxExample
         </NavLink>
       </li>
       <li>
-        <NavLink to="/profile">Profile</NavLink>
+        <NavLink to={reduceProfilePath()}>Profile</NavLink>
       </li>
     </ul>
   );
