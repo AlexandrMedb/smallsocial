@@ -1,23 +1,38 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
+import { Route, useParams } from "react-router-dom";
+import { useAppSelector } from "../../app/hooks";
+
+import { selectAllChats } from "../../app/slicers/MessageList";
 
 import faker from "faker";
 
 import styles from "./index.module.scss";
-import MessageCard from "../../components/MessageCard";
 import MessageInput from "../../components/MessageInput";
 import SideNavBar from "../../components/SideNavBar";
-
+import { MessageList } from "./components/MessageList";
 import Container from "@mui/material/Container";
 
-import { RandChatList } from "../../features/RandChatList";
-
 export const MainPage = () => {
-  let ChatList = RandChatList();
-  let randMessageList = ChatList[0].messageList;
+  const { chatId } = useParams<{ chatId: string }>();
+  const ChatList = useAppSelector(selectAllChats);
+  const ChatIndex = useMemo(() => {
+    let result = ChatList.findIndex((el) => {
+      if (el.name === chatId) {
+        return true;
+      }
+      return false;
+    });
+    if (result !== -1) {
+      return result;
+    }
+    return 0;
+  }, [ChatList, chatId]);
 
-  let ChatTitles = ChatList.map((el) => el.name);
+  const ChatTitles = useMemo(() => {
+    return ChatList.map((el) => el.name);
+  }, [ChatList]);
 
-  const [messageList, setMessageList] = useState(randMessageList);
+  const [messageList, setMessageList] = useState(ChatList[0].messageList);
 
   const handleAddMessage = useCallback(
     (messageText: string, bot?: boolean) => {
@@ -33,7 +48,7 @@ export const MainPage = () => {
         message.user = "bot";
       }
 
-      setMessageList(() => [message, ...messageList]);
+      setMessageList((messageList) => [message, ...messageList]);
 
       return message;
     },
@@ -42,26 +57,32 @@ export const MainPage = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      if (messageList[0].user !== "bot") {
-        handleAddMessage("", true);
-      } else {
-        // console.log("bot");
+      if (messageList) {
+        if (messageList[0].user !== "bot") {
+          handleAddMessage("", true);
+        } else {
+          // console.log("bot");
+        }
       }
-    }, 3000);
+    }, 1000);
   }, [messageList, handleAddMessage]);
+
+  useEffect(() => {
+    if (ChatIndex !== -1) {
+      setMessageList(() => ChatList[ChatIndex].messageList);
+    }
+  }, [ChatIndex, ChatList]);
 
   return (
     <main className={styles.container}>
       <Container component="main" maxWidth="xs">
+        <h1>{chatId}</h1>
         <MessageInput handleSend={handleAddMessage}></MessageInput>
-        {messageList.map((el) => (
-          <MessageCard
-            key={el.id}
-            message={el.lorem}
-            User={el.user}
-            avatar={el.avatar}
-          />
-        ))}
+
+        <Route path="/">
+          <MessageList messageLi={messageList} />
+        </Route>
+
         <SideNavBar ChatTitles={ChatTitles}></SideNavBar>
       </Container>
     </main>

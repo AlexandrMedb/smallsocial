@@ -11,6 +11,8 @@ import ListItem from "@mui/material/ListItem";
 
 import ListItemText from "@mui/material/ListItemText";
 
+import { Link } from "react-router-dom";
+
 const drawerWidth = 240;
 
 export default function SideNavBar(props: { ChatTitles: Array<string> }) {
@@ -36,7 +38,7 @@ export default function SideNavBar(props: { ChatTitles: Array<string> }) {
         <Divider />
         <List>
           {chatsArray.map((text, index) => (
-            <ListItem onClick={() => console.log(text)} button key={text}>
+            <ListItem button key={text} component={Link} to={`/${text}`}>
               <ListItemText primary={text} />
             </ListItem>
           ))}
