@@ -1,8 +1,11 @@
+import faker from "faker";
+
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "../../store";
 import { Chat } from "../../../interface/ChatInterfaces";
 
 import { RandChatList } from "../../../features/RandChatList";
+//interfaces
+import { Message } from "../../../interface/ChatInterfaces";
 
 const initialState: Array<Chat> = RandChatList();
 
@@ -11,18 +14,51 @@ export const chatListSlice = createSlice({
   initialState,
 
   reducers: {
-    // changeOnlineStatus: (state) => {
-    //   state.onlineStatus = !state.onlineStatus;
-    // },
-    // changeTesxtstatus: (state, action: PayloadAction<string>) => {
-    //   state.tesxtstatus = action.payload;
-    // },
+    addNewChat: (state, action: PayloadAction<string>) =>
+      (state = [
+        ...state,
+        {
+          name: action.payload,
+          chatID: faker.datatype.uuid(),
+          messageList: [],
+        },
+      ]),
+
+    removeChat: (state, action: PayloadAction<string>) => {
+      let ind = state.findIndex((el) => el.chatID === action.payload);
+      if (ind !== -1) {
+        state.splice(ind, 1);
+      }
+    },
+
+    addMessageToChat: (
+      state,
+      action: PayloadAction<{
+        chatID: string;
+        message?: string;
+      }>
+    ) => {
+      const message = {
+        id: faker.datatype.uuid(),
+        user: faker.name.findName(),
+        avatar: faker.image.avatar(),
+        lorem:
+          action.payload.message === undefined ? "" : action.payload.message,
+      };
+
+      let ind = state.findIndex((el) => el.chatID === action.payload.chatID);
+      if (ind !== -1) {
+        state[ind].messageList = [message, ...state[ind].messageList];
+      }
+    },
+
+    removeMessageFromChat: (state, action: PayloadAction<Message>) => {
+      console.log(action.payload);
+    },
   },
 });
 
-export const selectChat = (index: number) => (state: RootState) =>
-  state.chatList[index];
-
-export const selectAllChats = (state: RootState) => state.chatList;
+export const { addNewChat, removeChat, addMessageToChat } =
+  chatListSlice.actions;
 
 export default chatListSlice.reducer;

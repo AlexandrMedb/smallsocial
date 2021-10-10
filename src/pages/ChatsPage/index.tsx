@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { Route, useParams } from "react-router-dom";
-import { useAppSelector } from "../../app/hooks";
+import { useAppSelector, useAppDispatch } from "../../app/hooks";
 
-import { selectAllChats } from "../../app/slicers/MessageList";
+import { selectAllChats } from "../../app/slicers/MessageList/selectors";
+import { addNewChat } from "../../app/slicers/MessageList";
 
 import faker from "faker";
 
@@ -13,11 +14,14 @@ import { MessageList } from "./components/MessageList";
 import Container from "@mui/material/Container";
 
 export const ChatPage = () => {
+  const dispatch = useAppDispatch();
+
   const { chatId } = useParams<{ chatId: string }>();
   const ChatList = useAppSelector(selectAllChats);
+
   const ChatIndex = useMemo(() => {
     let result = ChatList.findIndex((el) => {
-      if (el.name === chatId) {
+      if (el.chatID === chatId) {
         return true;
       }
       return false;
@@ -30,6 +34,10 @@ export const ChatPage = () => {
 
   const ChatTitles = useMemo(() => {
     return ChatList.map((el) => el.name);
+  }, [ChatList]);
+
+  const ChatIDs = useMemo(() => {
+    return ChatList.map((el) => el.chatID);
   }, [ChatList]);
 
   const [messageList, setMessageList] = useState(ChatList[0].messageList);
@@ -57,11 +65,9 @@ export const ChatPage = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      if (messageList) {
+      if (messageList[0]) {
         if (messageList[0].user !== "bot") {
           handleAddMessage("", true);
-        } else {
-          // console.log("bot");
         }
       }
     }, 1000);
@@ -77,13 +83,14 @@ export const ChatPage = () => {
     <main className={styles.container}>
       <Container component="main" maxWidth="xs">
         <h1>{chatId}</h1>
-        <MessageInput handleSend={handleAddMessage}></MessageInput>
+        <h1 onClick={() => dispatch(addNewChat("lef"))}>add Chat</h1>
+        <MessageInput currentChat={chatId}></MessageInput>
 
         <Route path="/">
           <MessageList messageLi={messageList} />
         </Route>
 
-        <SideNavBar ChatTitles={ChatTitles}></SideNavBar>
+        <SideNavBar ChatTitles={ChatTitles} ChatIDs={ChatIDs}></SideNavBar>
       </Container>
     </main>
   );

@@ -9,6 +9,7 @@ const RandMessage = () => ({
 
 const RandChat = (ChatName: string | number) => ({
   name: `Chat${ChatName}`,
+  chatID: faker.datatype.uuid(),
   messageList: Array.from({ length: 10 }).map(RandMessage),
 });
 

@@ -1,8 +1,8 @@
 import React from "react";
-import { RandMessage } from "../../../../interface/ChatInterfaces";
+import { Message } from "../../../../interface/ChatInterfaces";
 
 import MessageCard from "../../../../components/MessageCard";
-export const MessageList = (props: { messageLi: Array<RandMessage> }) => {
+export const MessageList = (props: { messageLi: Array<Message> }) => {
   return (
     <>
       {props.messageLi.map((el: any) => (

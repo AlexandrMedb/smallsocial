@@ -1,4 +1,4 @@
-export interface RandMessage {
+export interface Message {
   id: string;
   user: string;
   avatar: string;
@@ -7,7 +7,8 @@ export interface RandMessage {
 
 export interface Chat {
   name: string;
-  messageList: Array<RandMessage>;
+  chatID: string;
+  messageList: Array<Message>;
 }
 
 export interface ChatList {

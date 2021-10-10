@@ -5,10 +5,13 @@ import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useAppDispatch } from "../../app/hooks";
+import { addMessageToChat } from "../../app/slicers/MessageList";
 
 const theme = createTheme();
 
 export default function MessageInput(props: any) {
+  const dispatch = useAppDispatch();
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -19,7 +22,12 @@ export default function MessageInput(props: any) {
     let target: UserEvent & Element = event.currentTarget[0];
 
     if (target.value !== "") {
-      props.handleSend(target.value);
+      dispatch(
+        addMessageToChat({
+          chatID: props.currentChat,
+          message: target.value,
+        })
+      );
 
       target.value = "";
       handleInputFocus();

@@ -15,10 +15,18 @@ import { Link } from "react-router-dom";
 
 import { reduceChatsPath } from "../../route/pathReducers";
 
+import { removeChat } from "../../app/slicers/MessageList";
+import { useAppDispatch } from "../../app/hooks";
+
 const drawerWidth = 240;
 
-export default function SideNavBar(props: { ChatTitles: Array<string> }) {
+export default function SideNavBar(props: {
+  ChatTitles: Array<string>;
+  ChatIDs: Array<string>;
+}) {
   const chatsArray = props.ChatTitles;
+  const chatsIDArray = props.ChatIDs;
+  const dispatch = useAppDispatch();
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -40,14 +48,24 @@ export default function SideNavBar(props: { ChatTitles: Array<string> }) {
         <Divider />
         <List>
           {chatsArray.map((text, index) => (
-            <ListItem
-              button
-              key={text}
-              component={Link}
-              to={`${reduceChatsPath()}/${text}`}
-            >
-              <ListItemText primary={text} />
-            </ListItem>
+            <>
+              <ListItem
+                button
+                key={text}
+                component={Link}
+                to={`${reduceChatsPath()}/${chatsIDArray[index]}`}
+              >
+                <ListItemText primary={text} />
+              </ListItem>
+              <button
+                type="button"
+                onClick={() => {
+                  dispatch(removeChat(chatsIDArray[index]));
+                }}
+              >
+                Удалить чат {text}{" "}
+              </button>
+            </>
           ))}
         </List>
         <Divider />

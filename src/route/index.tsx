@@ -3,7 +3,7 @@ import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { ChatPage } from "../pages/ChatsPage";
 import { ProfilePage } from "../pages/ProfilePage/Index";
-import { MainPage } from "../pages/MainPage";
+import { HomePage } from "../pages/HomePage";
 
 import { ReduxExample } from "../pages/ReduxExample";
 import {
@@ -17,7 +17,7 @@ import {
 export const useRoutes = (isAuthenticated: boolean) => {
   return (
     <Switch>
-      <Route exact path={reduceHomePath()} component={MainPage} />
+      <Route exact path={reduceHomePath()} component={HomePage} />
       <Route exact path={reduceExamplePath()} component={ReduxExample} />
       <Route exact path={reduceProfilePath()} component={ProfilePage} />
       <Route exact path={reduceChatsPath()} component={ChatPage} />

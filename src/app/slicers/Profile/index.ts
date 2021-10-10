@@ -17,6 +17,7 @@ export const profileStatusSlice = createSlice({
 
   reducers: {
     changeOnlineStatus: (state) => {
+      console.log(state.onlineStatus);
       state.onlineStatus = !state.onlineStatus;
     },
 

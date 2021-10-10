@@ -29,7 +29,7 @@ export const DevNavbar = () => {
   return (
     <ul id="nav-mobile" className="right hide-on-med-and-down" style={style}>
       <li>
-        <NavLink style={{ marginRight: "20px" }} to="/">
+        <NavLink style={{ marginRight: "20px" }} to={reduceHomePath()}>
           Main
         </NavLink>
       </li>
