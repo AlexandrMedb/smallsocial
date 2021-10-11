@@ -1,11 +1,16 @@
-import {createStore, combineReducers} from 'redux';
-import {collectionsReducer} from './collections';
-import {cardReducer} from "./cards";
+import { createStore, combineReducers } from "redux";
 
+import { counterReducer } from "./number";
+import { profileReducer } from "./profile";
 
 const rootReducer = combineReducers({
-  collections: collectionsReducer,
-  cards: cardReducer,
-})
+  // collections: collectionsReducer,
+  // cards: cardReducer,
+  counter: counterReducer,
+  profile: profileReducer,
+});
 
-export const store = createStore(rootReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+export const store = createStore(
+  rootReducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);

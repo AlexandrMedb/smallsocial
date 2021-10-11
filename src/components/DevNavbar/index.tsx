@@ -14,12 +14,12 @@ import {
 } from "../../route/pathReducers";
 
 export const DevNavbar = () => {
-  const Online = useAppSelector(selectOnlineStatus);
-  let statusColor = Online ? "lightgrey" : "darkgrey";
+  // const Online = useAppSelector(selectOnlineStatus);
+  // let statusColor = Online ? "lightgrey" : "darkgrey";
   const style = {
     // position: "absolute",
     padding: "20px",
-    background: statusColor,
+    background: "lightgrey",
     display: "flex",
     justifyContent: "center",
     textDecoration: "none",
