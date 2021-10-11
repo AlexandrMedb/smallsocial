@@ -1,12 +1,11 @@
 import { createStore, combineReducers } from "redux";
 
-import { counterReducer } from "./number";
-import { profileReducer } from "./profile";
+import { profileReducer } from "./profile/reducer";
 
 const rootReducer = combineReducers({
   // collections: collectionsReducer,
   // cards: cardReducer,
-  counter: counterReducer,
+
   profile: profileReducer,
 });
 

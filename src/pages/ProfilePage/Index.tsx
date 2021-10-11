@@ -1,29 +1,24 @@
 import React from "react";
 
-import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import {
-  decrement,
-  increment,
-  selectCount,
-} from "../../features/counter/counterSlice";
+import { useDispatch, useSelector } from "react-redux";
 
-import styles from "../../features/counter/Counter.module.css";
+// import styles from "../../features/counter/Counter.module.css";
+
+import { getOnline, getTextStatus } from "../../store/profile/selector";
 
 import {
-  selectOnlineStatus,
-  selectTesxtstatus,
   changeOnlineStatus,
   changeTesxtstatus,
-} from "../../app/slicers/Profile";
+} from "../../store/profile/actions";
 
 export const ProfilePage = () => {
-  const count = useAppSelector(selectCount);
+  // const count = useSelector(selectCount);
 
-  const Online = useAppSelector(selectOnlineStatus);
-  const TextStatus = useAppSelector(selectTesxtstatus);
+  const Online = useSelector(getOnline);
+  const TextStatus = useSelector(getTextStatus);
   let statusColor = Online ? "green" : "red";
 
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
 
   return (
     <main>
@@ -31,7 +26,7 @@ export const ProfilePage = () => {
         onClick={() => dispatch(changeOnlineStatus())}
         style={{ background: statusColor }}
       >
-        I am at {TextStatus} days {count}
+        I am at {TextStatus} days {1}
       </h1>
       <input
         type="text"
@@ -39,24 +34,6 @@ export const ProfilePage = () => {
           dispatch(changeTesxtstatus(e.target.value));
         }}
       />
-
-      <div>
-        <button
-          className={styles.button}
-          aria-label="Decrement value"
-          onClick={() => dispatch(decrement())}
-        >
-          -
-        </button>
-        <span className={styles.value}>{count}</span>
-        <button
-          className={styles.button}
-          aria-label="Increment value"
-          onClick={() => dispatch(increment())}
-        >
-          +
-        </button>
-      </div>
     </main>
   );
 };

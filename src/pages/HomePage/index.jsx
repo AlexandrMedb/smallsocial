@@ -1,8 +1,9 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { getValue } from "../../store/number/selector";
 import { getTextStatus, getOnline } from "../../store/profile/selector";
+
+import { changeOnlineStatus } from "../../store/profile/actions";
 
 export const HomePage = () => {
   const dispatch = useDispatch();
@@ -18,7 +19,14 @@ export const HomePage = () => {
   // View: the UI definition
   return (
     <div style={{ backgroundColor: bg }}>
-      Value: {textStatus} <button onClick>Increment</button>
+      Value: {textStatus}{" "}
+      <button
+        onClick={() => {
+          dispatch(changeOnlineStatus());
+        }}
+      >
+        Increment
+      </button>
     </div>
   );
 };

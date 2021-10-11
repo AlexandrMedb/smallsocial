@@ -3,8 +3,8 @@ import { NavLink } from "react-router-dom";
 
 // import { NavLink, useHistory } from "react-router-dom";
 
-import { selectOnlineStatus } from "../../app/slicers/Profile";
-import { useAppSelector } from "../../app/hooks";
+import { getOnline } from "../../store/profile/selector";
+import { useSelector } from "react-redux";
 
 import {
   reduceProfilePath,
@@ -14,12 +14,12 @@ import {
 } from "../../route/pathReducers";
 
 export const DevNavbar = () => {
-  // const Online = useAppSelector(selectOnlineStatus);
-  // let statusColor = Online ? "lightgrey" : "darkgrey";
+  const Online = useSelector(getOnline);
+  let statusColor = Online ? "lightgrey" : "darkgrey";
   const style = {
     // position: "absolute",
     padding: "20px",
-    background: "lightgrey",
+    background: statusColor,
     display: "flex",
     justifyContent: "center",
     textDecoration: "none",
