@@ -1,4 +1,5 @@
 import { createStore, combineReducers } from "redux";
+import { chatListReducer } from "./MessageList";
 
 import { profileReducer } from "./profile/reducer";
 
@@ -7,6 +8,7 @@ const rootReducer = combineReducers({
   // cards: cardReducer,
 
   profile: profileReducer,
+  chatList: chatListReducer,
 });
 
 export const store = createStore(

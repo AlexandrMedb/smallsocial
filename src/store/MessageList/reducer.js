@@ -1,74 +1,62 @@
 import faker from "faker";
+import { RandChatList } from "../../features/RandChatList";
 
-import { RandChatList } from "../../../features/RandChatList";
+import {
+  Add_New_Message,
+  Remove_Chat,
+  Add_New_Chat,
+  Remove_Message,
+} from "./actions";
 
 const initialState = RandChatList();
 
 export const chatListReducer = (state = initialState, action) => {
   switch (action.type) {
-    // case Change_OnlineStatus: {
-    //   console.log(state);
-    //   return {
-    //     ...state,
-    //     onlineStatus: !state.onlineStatus,
-    //   };
-    // }
-    // case Change_TextStatus: {
-    //   return {
-    //     ...state,
-    //     tesxtstatus: action.payload,
-    //   };
-    // }
+    case Add_New_Chat: {
+      console.log(state);
+
+      return [
+        ...state,
+        {
+          name: action.payload,
+          chatID: faker.datatype.uuid(),
+          messageList: [],
+        },
+      ];
+    }
+    case Remove_Chat: {
+      let ind = state.findIndex((el) => el.chatID === action.payload);
+      if (ind !== -1) {
+        let result = state.filter((el, i) => i !== ind);
+        return result;
+      }
+      return state;
+    }
+    case Add_New_Message: {
+      const message = {
+        id: faker.datatype.uuid(),
+        user: faker.name.findName(),
+        avatar: faker.image.avatar(),
+        lorem:
+          action.payload.message === undefined ? "" : action.payload.message,
+      };
+
+      let ind = state.findIndex((el) => el.chatID === action.payload.chatID);
+      console.log(ind);
+      if (ind !== -1) {
+        let result = state;
+        result[ind].messageList = [message, ...state[ind].messageList];
+        console.log(result);
+        return result;
+      }
+      return state;
+    }
+
+    case Remove_Message: {
+      return state;
+    }
     default: {
       return state;
     }
   }
 };
-
-//   reducers: {
-//     addNewChat: (state, action: PayloadAction<string>) =>
-//       (state = [
-//         ...state,
-//         {
-//           name: action.payload,
-//           chatID: faker.datatype.uuid(),
-//           messageList: [],
-//         },
-//       ]),
-
-//     removeChat: (state, action: PayloadAction<string>) => {
-//       let ind = state.findIndex((el) => el.chatID === action.payload);
-//       if (ind !== -1) {
-//         state.splice(ind, 1);
-//       }
-//     },
-
-//     addMessageToChat: (
-//       state,
-//       action: PayloadAction<{
-//         chatID: string;
-//         message?: string;
-//       }>
-//     ) => {
-//       const message = {
-//         id: faker.datatype.uuid(),
-//         user: faker.name.findName(),
-//         avatar: faker.image.avatar(),
-//         lorem:
-//           action.payload.message === undefined ? "" : action.payload.message,
-//       };
-
-//       let ind = state.findIndex((el) => el.chatID === action.payload.chatID);
-//       if (ind !== -1) {
-//         state[ind].messageList = [message, ...state[ind].messageList];
-//       }
-//     },
-
-//     removeMessageFromChat: (state, action: PayloadAction<Message>) => {
-//       console.log(action.payload);
-//     },
-//   },
-// });
-
-// export const { addNewChat, removeChat, addMessageToChat } =
-//   chatListSlice.actions;

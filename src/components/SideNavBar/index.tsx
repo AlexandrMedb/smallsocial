@@ -15,8 +15,8 @@ import { Link } from "react-router-dom";
 
 import { reduceChatsPath } from "../../route/pathReducers";
 
-import { removeChat } from "../../app/slicers/MessageList";
-import { useAppDispatch } from "../../app/hooks";
+import { removeChat } from "../../store/MessageList";
+import { useDispatch } from "react-redux";
 
 const drawerWidth = 240;
 
@@ -26,7 +26,7 @@ export default function SideNavBar(props: {
 }) {
   const chatsArray = props.ChatTitles;
   const chatsIDArray = props.ChatIDs;
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
 
   return (
     <Box sx={{ display: "flex" }}>

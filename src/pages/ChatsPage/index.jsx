@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { Route, useParams } from "react-router-dom";
-import { useAppSelector, useAppDispatch } from "../../app/hooks";
+import { useSelector, useDispatch } from "react-redux";
 
-import { selectAllChats } from "../../app/slicers/MessageList/selectors";
-import { addNewChat } from "../../app/slicers/MessageList";
+import { getAllChats, selectChat } from "../../store/MessageList/selectors";
+import { addNewChat } from "../../store/MessageList/index";
 
 import faker from "faker";
 
@@ -14,13 +14,14 @@ import { MessageList } from "./components/MessageList";
 import Container from "@mui/material/Container";
 
 export const ChatPage = () => {
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
 
-  const { chatId } = useParams<{ chatId: string }>();
-  const ChatList = useAppSelector(selectAllChats);
+  const AllChatList = useSelector(getAllChats);
+
+  const { chatId } = useParams(AllChatList[0].chatID);
 
   const ChatIndex = useMemo(() => {
-    let result = ChatList.findIndex((el) => {
+    let result = AllChatList.findIndex((el) => {
       if (el.chatID === chatId) {
         return true;
       }
@@ -30,20 +31,22 @@ export const ChatPage = () => {
       return result;
     }
     return 0;
-  }, [ChatList, chatId]);
+  }, [AllChatList, chatId]);
 
+  const chat = useSelector(selectChat(ChatIndex));
+  console.log(chat);
   const ChatTitles = useMemo(() => {
-    return ChatList.map((el) => el.name);
-  }, [ChatList]);
+    return AllChatList.map((el) => el.name);
+  }, [AllChatList]);
 
   const ChatIDs = useMemo(() => {
-    return ChatList.map((el) => el.chatID);
-  }, [ChatList]);
+    return AllChatList.map((el) => el.chatID);
+  }, [AllChatList]);
 
-  const [messageList, setMessageList] = useState(ChatList[0].messageList);
+  const [messageList, setMessageList] = useState(AllChatList[0].messageList);
 
   const handleAddMessage = useCallback(
-    (messageText: string, bot?: boolean) => {
+    (messageText, bot) => {
       const message = {
         id: faker.datatype.uuid(),
         user: faker.name.findName(),
@@ -75,9 +78,9 @@ export const ChatPage = () => {
 
   useEffect(() => {
     if (ChatIndex !== -1) {
-      setMessageList(() => ChatList[ChatIndex].messageList);
+      setMessageList(() => AllChatList[ChatIndex].messageList);
     }
-  }, [ChatIndex, ChatList]);
+  }, [ChatIndex, AllChatList]);
 
   return (
     <main className={styles.container}>
