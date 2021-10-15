@@ -1,5 +1,5 @@
 import faker from "faker";
-import { RandChatList } from "../../features/RandChatList";
+import { RandChats } from "../../features/RandChatList";
 
 import {
   Add_New_Message,
@@ -8,7 +8,7 @@ import {
   Remove_Message,
 } from "./actions";
 
-const initialState = RandChatList();
+const initialState = RandChats();
 
 export const chatListReducer = (state = initialState, action) => {
   switch (action.type) {

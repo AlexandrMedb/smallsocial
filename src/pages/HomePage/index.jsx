@@ -4,8 +4,6 @@ import { addNewChat } from "../../store/MessageList/index";
 
 import { getTextStatus, getOnline } from "../../store/profile/selector";
 
-import { selectChat } from "../../store/MessageList/selectors";
-
 export const HomePage = () => {
   const dispatch = useDispatch();
 
@@ -14,8 +12,6 @@ export const HomePage = () => {
   const online = useSelector(getOnline);
 
   let bg = online ? "green" : "red";
-
-  console.log(useSelector(selectChat(0)));
 
   return (
     <div style={{ backgroundColor: bg }}>

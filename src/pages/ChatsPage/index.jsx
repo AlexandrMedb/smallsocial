@@ -18,76 +18,71 @@ export const ChatPage = () => {
 
   const AllChatList = useSelector(getAllChats);
 
-  const { chatId } = useParams(AllChatList[0].chatID);
+  const ChatIDs = Object.keys(AllChatList);
+  const ChatTitles = ChatIDs;
 
-  const ChatIndex = useMemo(() => {
-    let result = AllChatList.findIndex((el) => {
-      if (el.chatID === chatId) {
-        return true;
-      }
-      return false;
-    });
-    if (result !== -1) {
-      return result;
-    }
-    return 0;
-  }, [AllChatList, chatId]);
+  const [messageList, setMessageList] = useState(AllChatList[ChatIDs[0]]);
 
-  const chat = useSelector(selectChat(ChatIndex));
-  console.log(chat);
-  const ChatTitles = useMemo(() => {
-    return AllChatList.map((el) => el.name);
-  }, [AllChatList]);
+  // const { chatId } = useParams(AllChatList[0].chatID);
 
-  const ChatIDs = useMemo(() => {
-    return AllChatList.map((el) => el.chatID);
-  }, [AllChatList]);
+  // const ChatIndex = useMemo(() => {
+  //   let result = AllChatList.findIndex((el) => {
+  //     if (el.chatID === chatId) {
+  //       return true;
+  //     }
+  //     return false;
+  //   });
+  //   if (result !== -1) {
+  //     return result;
+  //   }
+  //   return 0;
+  // }, [AllChatList, chatId]);
 
-  const [messageList, setMessageList] = useState(AllChatList[0].messageList);
+  // const chat = useSelector(selectChat(ChatIndex));
 
-  const handleAddMessage = useCallback(
-    (messageText, bot) => {
-      const message = {
-        id: faker.datatype.uuid(),
-        user: faker.name.findName(),
-        avatar: faker.image.avatar(),
-        lorem: messageText,
-      };
+  // const handleAddMessage = useCallback(
+  //   (messageText, bot) => {
+  //     const message = {
+  //       id: faker.datatype.uuid(),
+  //       user: faker.name.findName(),
+  //       avatar: faker.image.avatar(),
+  //       lorem: messageText,
+  //     };
 
-      if (bot) {
-        message.lorem = `Чем я могу помочь ? ${messageList[0].user}`;
-        message.user = "bot";
-      }
+  //     if (bot) {
+  //       message.lorem = `Чем я могу помочь ? ${messageList[0].user}`;
+  //       message.user = "bot";
+  //     }
 
-      setMessageList((messageList) => [message, ...messageList]);
+  //     setMessageList((messageList) => [message, ...messageList]);
 
-      return message;
-    },
-    [messageList]
-  );
+  //     return message;
+  //   },
+  //   [messageList]
+  // );
 
-  useEffect(() => {
-    setTimeout(() => {
-      if (messageList[0]) {
-        if (messageList[0].user !== "bot") {
-          handleAddMessage("", true);
-        }
-      }
-    }, 1000);
-  }, [messageList, handleAddMessage]);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     if (messageList[0]) {
+  //       if (messageList[0].user !== "bot") {
+  //         handleAddMessage("", true);
+  //       }
+  //     }
+  //   }, 1000);
+  // }, [messageList, handleAddMessage]);
 
-  useEffect(() => {
-    if (ChatIndex !== -1) {
-      setMessageList(() => AllChatList[ChatIndex].messageList);
-    }
-  }, [ChatIndex, AllChatList]);
+  // useEffect(() => {
+  //   if (ChatIndex !== -1) {
+  //     setMessageList(() => AllChatList[ChatIndex].messageList);
+  //   }
+  // }, [ChatIndex, AllChatList]);
 
   return (
     <main className={styles.container}>
       <Container component="main" maxWidth="xs">
-        <h1>{chatId}</h1>
+        {/* <h1>{chatId}</h1> */}
         <h1 onClick={() => dispatch(addNewChat("lef"))}>add Chat</h1>
-        <MessageInput currentChat={chatId}></MessageInput>
+        {/* <MessageInput currentChat={chatId}></MessageInput> */}
 
         <Route path="/">
           <MessageList messageLi={messageList} />
