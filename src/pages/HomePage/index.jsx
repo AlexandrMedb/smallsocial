@@ -27,7 +27,7 @@ export const HomePage = () => {
             dispatch(reqGit());
           }}
         >
-          Change
+          request
         </button>
       </div>
     </div>
