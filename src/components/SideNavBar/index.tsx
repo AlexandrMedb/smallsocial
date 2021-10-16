@@ -15,7 +15,7 @@ import { Link } from "react-router-dom";
 
 import { reduceChatsPath } from "../../route/pathReducers";
 
-import { removeChat } from "../../store/MessageList";
+import { removeChat } from "../../store/Chat";
 import { useDispatch } from "react-redux";
 
 const drawerWidth = 240;

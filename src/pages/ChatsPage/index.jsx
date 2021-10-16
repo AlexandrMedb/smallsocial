@@ -2,8 +2,8 @@ import React, { useState, useEffect, useMemo } from "react";
 import { Route, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
-import { getAllChats } from "../../store/MessageList/selectors";
-import { addNewChat } from "../../store/MessageList/index";
+import { getAllChats } from "../../store/Chat/selectors";
+import { addNewChat } from "../../store/Chat/index";
 
 import styles from "./index.module.scss";
 import { MessageInput } from "../../components/MessageInput";

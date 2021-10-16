@@ -8,7 +8,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 import { useDispatch } from "react-redux";
 
-import { addNewMessageWithBot } from "../../store/MessageList";
+import { addNewMessageWithBot } from "../../store/Chat";
 
 const theme = createTheme();
 

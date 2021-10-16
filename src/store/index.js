@@ -3,12 +3,14 @@ import thunk from "redux-thunk";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
-import { chatListReducer } from "./MessageList";
+import { chatListReducer } from "./Chat";
 import { profileReducer } from "./profile/reducer";
+import { gitReducer } from "./GitApi";
 
 const rootReducer = combineReducers({
   profile: profileReducer,
   chatList: chatListReducer,
+  gitApi: gitReducer,
 });
 
 const persistConfig = {
