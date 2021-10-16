@@ -23,13 +23,11 @@ export const removeMessage = ({ message, chatId }) => ({
   payload: { message, chatId },
 });
 
-export const botInTheChatAsync = (message) => {
+export const addNewMessageWithBot = (message) => {
   return (dispatch, getState) => {
-    // console.log(message);
-    // const { profile } = getState();
-    // console.log(profile);
+    dispatch(addNewMessage(message));
     setTimeout(() => {
-      // dispatch(addNewMessage());
+      dispatch(addNewMessage({ ...message, message: "botmessage" }));
     }, 3000);
   };
 };

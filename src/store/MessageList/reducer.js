@@ -13,24 +13,15 @@ const initialState = RandChats();
 export const chatListReducer = (state = initialState, action) => {
   switch (action.type) {
     case Add_New_Chat: {
-      console.log(state);
-
-      return [
+      return {
         ...state,
-        {
-          name: action.payload,
-          chatID: faker.datatype.uuid(),
-          messageList: [],
-        },
-      ];
+        [faker.address.city()]: [],
+      };
     }
     case Remove_Chat: {
-      let ind = state.findIndex((el) => el.chatID === action.payload);
-      if (ind !== -1) {
-        let result = state.filter((el, i) => i !== ind);
-        return result;
-      }
-      return state;
+      const result = { ...state };
+      delete result[action.payload];
+      return result;
     }
     case Add_New_Message: {
       const message = {
@@ -41,15 +32,13 @@ export const chatListReducer = (state = initialState, action) => {
           action.payload.message === undefined ? "" : action.payload.message,
       };
 
-      let ind = state.findIndex((el) => el.chatID === action.payload.chatID);
-      console.log(ind);
-      if (ind !== -1) {
-        let result = state;
-        result[ind].messageList = [message, ...state[ind].messageList];
-        console.log(result);
-        return result;
-      }
-      return state;
+      const result = { ...state };
+      result[action.payload.chatID] = [
+        message,
+        ...result[action.payload.chatID],
+      ];
+
+      return result;
     }
 
     case Remove_Message: {

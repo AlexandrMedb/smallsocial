@@ -20,7 +20,7 @@ import { useDispatch } from "react-redux";
 
 const drawerWidth = 240;
 
-export default function SideNavBar(props: {
+export function SideNavBar(props: {
   ChatTitles: Array<string>;
   ChatIDs: Array<string>;
 }) {
