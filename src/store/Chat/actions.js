@@ -23,11 +23,9 @@ export const removeMessage = ({ message, chatId }) => ({
   payload: { message, chatId },
 });
 
-export const addNewMessageWithBot = (message) => {
-  return (dispatch, getState) => {
-    dispatch(addNewMessage(message));
-    setTimeout(() => {
-      dispatch(addNewMessage({ ...message, message: "botmessage" }));
-    }, 3000);
-  };
+export const addNewMessageWithBot = (message) => (dispatch, getState) => {
+  dispatch(addNewMessage(message));
+  setTimeout(() => {
+    dispatch(addNewMessage({ ...message, message: "botmessage" }));
+  }, 3000);
 };

@@ -9,19 +9,13 @@ const initialState = {
 export const gitReducer = (state = initialState, action) => {
   switch (action.type) {
     case Set_Error: {
-      const result = { ...state };
-      result.error = action.payload;
-      return result;
+      return { ...state, error: action.payload };
     }
     case Set_Loading: {
-      const result = { ...state };
-      result.loading = action.payload;
-      return result;
+      return { ...state, loading: action.payload };
     }
     case Set_GitData: {
-      const result = { ...state };
-      result.data = action.payload;
-      return result;
+      return { ...state, data: action.payload };
     }
 
     default: {

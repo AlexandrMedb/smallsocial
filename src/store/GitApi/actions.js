@@ -2,7 +2,7 @@ export const Set_GitData = "setGitData";
 export const Set_Error = "SetError";
 export const Set_Loading = "setLoading";
 
-const API_URL_PUBLIC = "https://api.github.com/gists/public";
+const API_URL_PUBLIC = "https://cataas.com/api/cats?tags=cute";
 
 const setGitData = (data) => ({
   type: Set_GitData,
@@ -26,7 +26,8 @@ export const reqGit = () => {
     fetch(API_URL_PUBLIC)
       .then((response) => response.json())
       .then((response) => {
-        dispatch(setGitData(response[0]));
+        console.log(response);
+        dispatch(setGitData(response[Math.floor(Math.random() * 85)]));
         dispatch(setLoading(false));
       })
       .catch((error) => {

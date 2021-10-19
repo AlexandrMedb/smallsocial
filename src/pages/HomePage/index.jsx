@@ -1,27 +1,32 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { getTextStatus } from "../../store/profile/selector";
-import { getWaetherState } from "../../store/GitApi";
+import { getDataApi, getErrorApi, getLoadingApi } from "../../store/GitApi";
 import { reqGit } from "../../store/GitApi";
 
 export const HomePage = () => {
   const dispatch = useDispatch();
-
   const textStatus = useSelector(getTextStatus);
 
-  const gitData = useSelector(getWaetherState);
-  console.log(gitData.data.url);
+  const loadingApi = useSelector(getLoadingApi).toString();
+  const errorApi = useSelector(getErrorApi).toString();
+  const dataApi = useSelector(getDataApi);
+  console.log(dataApi);
+
+  useEffect(() => {
+    dispatch(reqGit());
+  }, [dispatch]);
 
   return (
     <div>
       <h1>{textStatus}</h1>
-      <div>Loading: {gitData.loading.toString()}</div>
+      <div>Loading: {loadingApi}</div>
       <br />
-      <div>Error: {gitData.error.toString()} </div>
+      <div>Error: {errorApi} </div>
       <br />
       <div>
-        gitData:{gitData.data.url}
+        gitData:{dataApi.id}
         <button
           onClick={() => {
             dispatch(reqGit());
