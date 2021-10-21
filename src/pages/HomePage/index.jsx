@@ -1,9 +1,8 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { addNewChat } from "../../store/MessageList/index";
 
 import { getTextStatus, getOnline } from "../../store/profile/selector";
-
-import { changeOnlineStatus } from "../../store/profile/actions";
 
 export const HomePage = () => {
   const dispatch = useDispatch();
@@ -14,15 +13,12 @@ export const HomePage = () => {
 
   let bg = online ? "green" : "red";
 
-  // dispatch();
-
-  // View: the UI definition
   return (
     <div style={{ backgroundColor: bg }}>
       Value: {textStatus}{" "}
       <button
         onClick={() => {
-          dispatch(changeOnlineStatus());
+          dispatch(addNewChat("arr"));
         }}
       >
         Increment

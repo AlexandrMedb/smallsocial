@@ -7,8 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getOnline, getTextStatus } from "../../store/profile/selector";
 
 import {
-  changeOnlineStatus,
   changeTesxtstatus,
+  changeTesxtstatusAsync,
 } from "../../store/profile/actions";
 
 export const ProfilePage = () => {
@@ -23,7 +23,7 @@ export const ProfilePage = () => {
   return (
     <main>
       <h1
-        onClick={() => dispatch(changeOnlineStatus())}
+        onClick={() => dispatch(changeTesxtstatusAsync())}
         style={{ background: statusColor }}
       >
         I am at {TextStatus} days {1}

@@ -7,11 +7,21 @@ const RandMessage = () => ({
   lorem: faker.lorem.text(),
 });
 
+const RandMessageList = () => Array.from({ length: 10 }).map(RandMessage);
+
 const RandChat = (ChatName: string | number) => ({
   name: `Chat${ChatName}`,
   chatID: faker.datatype.uuid(),
-  messageList: Array.from({ length: 10 }).map(RandMessage),
+  messageList: RandMessageList(),
 });
 
 export const RandChatList = () =>
   Array.from({ length: 3 }).map((el, i) => RandChat(i));
+
+export const RandChats = (n: number = 3) => {
+  const result: any = {};
+  for (let i = 0; i < n; i++) {
+    result[faker.address.city()] = RandMessageList();
+  }
+  return result;
+};

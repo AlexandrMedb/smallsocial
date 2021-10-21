@@ -14,7 +14,6 @@ const initialState = {
 export const profileReducer = (state = initialState, action) => {
   switch (action.type) {
     case Change_OnlineStatus: {
-      console.log(state);
       return {
         ...state,
         onlineStatus: !state.onlineStatus,
