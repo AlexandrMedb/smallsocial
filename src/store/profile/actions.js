@@ -17,3 +17,15 @@ export const changeTesxtstatus = (status) => ({
   type: Change_TextStatus,
   payload: status,
 });
+
+export const changeTesxtstatusAsync = () => {
+  return (dispatch, getState) => {
+    const b = getState();
+    console.log(b);
+    const { profile } = getState();
+    console.log(profile);
+    setTimeout(() => {
+      dispatch(changeOnlineStatus());
+    }, 3000);
+  };
+};

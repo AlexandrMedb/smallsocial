@@ -5,13 +5,15 @@ import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useAppDispatch } from "../../app/hooks";
-import { addMessageToChat } from "../../app/slicers/MessageList";
+
+import { useDispatch } from "react-redux";
+
+import { addNewMessageWithBot } from "../../store/Chat";
 
 const theme = createTheme();
 
-export default function MessageInput(props: any) {
-  const dispatch = useAppDispatch();
+export function MessageInput(props: any) {
+  const dispatch = useDispatch();
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -23,7 +25,7 @@ export default function MessageInput(props: any) {
 
     if (target.value !== "") {
       dispatch(
-        addMessageToChat({
+        addNewMessageWithBot({
           chatID: props.currentChat,
           message: target.value,
         })
@@ -42,33 +44,42 @@ export default function MessageInput(props: any) {
     }
   }, [textInput]);
 
-  return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
+  if (props.currentChat) {
+    return (
+      <ThemeProvider theme={theme}>
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
 
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="message"
-            label="Input Message"
-            name="message"
-            autoFocus
-            inputRef={textInput}
-          />
-
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 1 }}
           >
-            Send
-          </Button>
-        </Box>
-      </Container>
-    </ThemeProvider>
-  );
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="message"
+              label="Input Message"
+              name="message"
+              autoFocus
+              autoComplete="off"
+              inputRef={textInput}
+            />
+
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Send
+            </Button>
+          </Box>
+        </Container>
+      </ThemeProvider>
+    );
+  }
+  return <></>;
 }
