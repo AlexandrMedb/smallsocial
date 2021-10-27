@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { auth } from "../services/firebase";
 
 import { Switch, Route, Redirect } from "react-router-dom";
 import { ChatPage } from "../pages/ChatsPage";
@@ -17,16 +18,38 @@ import {
 } from "./pathReducers";
 
 export const useRoutes = (isAuthenticated: boolean) => {
+  const [authed, setAuthed] = useState(false);
+
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        setAuthed(true);
+      } else {
+        setAuthed(false);
+      }
+    });
+  }, []);
+
+  if (authed) {
+    return (
+      <Switch>
+        <Route exact path={reduceHomePath()} component={HomePage} />
+        {/* <Route exact path={reduceExamplePath()} component={ReduxExample} /> */}
+        <Route exact path={reduceProfilePath()} component={ProfilePage} />
+        <Route exact path={reduceChatsPath()} component={ChatPage} />
+        <Route exact path={reduceChatIdPath()} component={ChatPage} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/signup" component={Signup} />
+        <Redirect to={reduceHomePath()} />
+      </Switch>
+    );
+  }
+
   return (
     <Switch>
-      <Route exact path={reduceHomePath()} component={HomePage} />
-      {/* <Route exact path={reduceExamplePath()} component={ReduxExample} /> */}
-      <Route exact path={reduceProfilePath()} component={ProfilePage} />
-      <Route exact path={reduceChatsPath()} component={ChatPage} />
-      <Route exact path={reduceChatIdPath()} component={ChatPage} />
       <Route exact path="/login" component={Login} />
       <Route exact path="/signup" component={Signup} />
-      <Redirect to={reduceHomePath()} />
+      <Redirect to="/login" />
     </Switch>
   );
 };

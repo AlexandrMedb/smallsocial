@@ -24,8 +24,16 @@ export function SideNavBar(props: {
   ChatTitles: Array<string>;
   ChatIDs: Array<string>;
 }) {
-  const chatsArray = props.ChatTitles;
-  const chatsIDArray = props.ChatIDs;
+  let chatsArray: any = [];
+  if (props.ChatTitles) {
+    chatsArray = props.ChatTitles;
+  }
+
+  let chatsIDArray: any = [];
+  if (props.ChatTitles) {
+    chatsIDArray = props.ChatIDs;
+  }
+
   const dispatch = useDispatch();
 
   return (
@@ -47,7 +55,7 @@ export function SideNavBar(props: {
         <Toolbar />
         <Divider />
         <List>
-          {chatsArray.map((text, index) => (
+          {chatsArray.map((text: any, index: any) => (
             <>
               <ListItem
                 button

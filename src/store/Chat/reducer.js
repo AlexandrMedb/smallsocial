@@ -1,6 +1,8 @@
 import faker from "faker";
 import { RandChats } from "../../features/RandChatList";
 
+import { chats } from "../../services/firebase";
+
 import {
   Add_New_Message,
   Remove_Chat,
@@ -13,14 +15,17 @@ const initialState = RandChats();
 export const chatListReducer = (state = initialState, action) => {
   switch (action.type) {
     case Add_New_Chat: {
+      let chatName = faker.address.city();
+      chats.push({ chatName: chatName, message: {} });
       return {
         ...state,
-        [faker.address.city()]: [],
+        [chatName]: [],
       };
     }
     case Remove_Chat: {
       const result = { ...state };
       delete result[action.payload];
+      chats.child(action.payload).remove();
       return result;
     }
     case Add_New_Message: {

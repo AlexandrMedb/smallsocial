@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+// import firebase from "firebase";
+import { auth } from "../../services/firebase";
 
-import { rootRef } from "../../services/firebase";
-
-export const Login = () => {
+export const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+  const { push } = useHistory();
 
   const handlePassChange = (e) => {
     setPassword(e.target.value);
@@ -20,41 +22,16 @@ export const Login = () => {
     e.preventDefault();
     setError("");
 
-    // try {
-    //   await firebase.auth().createUserWithEmailAndPassword(email, password);
-    // } catch (error) {
-    //   setError(error.message);
-    // }
+    try {
+      await auth.createUserWithEmailAndPassword(email, password);
+      push("/profile");
+    } catch (error) {
+      setError(error.message);
+    }
   };
 
   return (
     <div>
-      <button
-        onClick={() => {
-          rootRef.set({
-            ke1: "разобрался",
-            key2: "разобрался ",
-          });
-
-          // @todo:
-        }}
-      >
-        Set
-      </button>
-      <button
-        onClick={async () => {
-          rootRef.child("test1").set({
-            ke22: "ex2",
-            key2: "sadaa",
-          });
-          let a = await rootRef.child("Atarasov");
-          console.log(a);
-          console.log("22");
-          // @TODO: сюда код
-        }}
-      >
-        Set
-      </button>
       <form onSubmit={handleSubmit}>
         <p>Fill in the form below to register new account.</p>
         <div>
@@ -77,7 +54,7 @@ export const Login = () => {
         </div>
         <div>
           {error && <p>{error}</p>}
-          <button type="submit">Login</button>
+          <button type="submit">Signup</button>
         </div>
         <hr />
         <p>

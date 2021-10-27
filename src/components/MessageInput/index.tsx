@@ -27,6 +27,7 @@ export function MessageInput(props: any) {
       dispatch(
         addNewMessageWithBot({
           chatID: props.currentChat,
+
           message: target.value,
         })
       );

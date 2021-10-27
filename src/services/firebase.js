@@ -17,3 +17,4 @@ export const auth = firebase.auth();
 export const db = firebase.database();
 
 export const rootRef = db.ref("Atarasov");
+export const chats = db.ref("chats");

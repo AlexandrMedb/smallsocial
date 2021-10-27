@@ -1,3 +1,5 @@
+import { chats } from "../../services/firebase";
+
 export const Add_New_Chat = "Add_New_Chat";
 export const Remove_Chat = "Remove_Chat";
 export const Add_New_Message = "Add_New_Message";
@@ -23,11 +25,10 @@ export const removeMessage = ({ message, chatId }) => ({
   payload: { message, chatId },
 });
 
-export const addNewMessageWithBot = (message) => {
-  return (dispatch, getState) => {
-    dispatch(addNewMessage(message));
-    setTimeout(() => {
-      dispatch(addNewMessage({ ...message, message: "botmessage" }));
-    }, 3000);
-  };
+export const addNewMessageWithBot = (message) => async (dispatch, getState) => {
+  chats.child(message.chatID).child("messages").push(message);
+  // dispatch(addNewMessage(message));
+  // setTimeout(() => {
+  //   dispatch(addNewMessage({ ...message, message: "botmessage" }));
+  // }, 3000);
 };

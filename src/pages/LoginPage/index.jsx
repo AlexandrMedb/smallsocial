@@ -1,11 +1,15 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import firebase from "firebase";
+import { Link, useHistory } from "react-router-dom";
 
-export const Signup = () => {
+import { rootRef } from "../../services/firebase";
+import { auth } from "../../services/firebase";
+
+export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+  const { push } = useHistory();
 
   const handlePassChange = (e) => {
     setPassword(e.target.value);
@@ -20,7 +24,8 @@ export const Signup = () => {
     setError("");
 
     try {
-      await firebase.auth().createUserWithEmailAndPassword(email, password);
+      await auth.signInWithEmailAndPassword(email, password);
+      push("/profile");
     } catch (error) {
       setError(error.message);
     }
@@ -28,6 +33,34 @@ export const Signup = () => {
 
   return (
     <div>
+      <button
+        onClick={() => {
+          rootRef.set({
+            ke1: "разобрался",
+            key2: "разобрался ",
+          });
+
+          // @todo:
+        }}
+      >
+        Set
+      </button>
+      <button
+        onClick={async () => {
+          rootRef.child("test1").set({
+            ke22: "ex2",
+            key2: "sadaa",
+          });
+          let a = await rootRef.child("Atarasov");
+          console.log(a);
+
+          auth.signOut();
+
+          // @TODO: сюда код
+        }}
+      >
+        exit
+      </button>
       <form onSubmit={handleSubmit}>
         <p>Fill in the form below to register new account.</p>
         <div>
@@ -54,7 +87,7 @@ export const Signup = () => {
         </div>
         <hr />
         <p>
-          Already have an account? <Link to="/login">Sign in</Link>
+          You have`t account? <Link to="/signup">Sign up</Link>
         </p>
       </form>
     </div>

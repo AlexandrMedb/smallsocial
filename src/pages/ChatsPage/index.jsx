@@ -11,13 +11,21 @@ import { SideNavBar } from "../../components/SideNavBar";
 import { MessageList } from "./components/MessageList";
 import Container from "@mui/material/Container";
 
+import { chats } from "../../services/firebase";
+
 export const ChatPage = () => {
   const dispatch = useDispatch();
 
   const AllChatList = useSelector(getAllChats);
 
-  const ChatTitles = useMemo(() => Object.keys(AllChatList), [AllChatList]);
-  const ChatIDs = useMemo(() => Object.keys(AllChatList), [AllChatList]);
+  const [chatsDataBase, setChatsDataBase] = useState();
+
+  const [chatIDsDataBase, srtChatIDsDataBase] = useState();
+
+  const [chatTitlesDataBase, setChatTitlesDataBase] = useState();
+
+  // const ChatTitles = useMemo(() => Object.keys(AllChatList), [AllChatList]);
+  // const ChatIDs = useMemo(() => Object.keys(AllChatList), [AllChatList]);
 
   const [messageList, setMessageList] = useState();
 
@@ -26,6 +34,36 @@ export const ChatPage = () => {
   useEffect(() => {
     if (chatId) setMessageList(AllChatList[chatId]);
   }, [chatId, AllChatList]);
+
+  useEffect(() => {
+    const ChatIDs = [];
+    const ChatTitles = [];
+    chats.on("value", async (snapshot) => {
+      let data = await snapshot.val();
+      setChatsDataBase(data);
+
+      for (let key in data) {
+        ChatIDs.push(key);
+
+        ChatTitles.push(data[key].chatName);
+      }
+
+      srtChatIDsDataBase(ChatIDs);
+      setChatTitlesDataBase(ChatTitles);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (chatId) {
+      const MessObg = chatsDataBase[chatId].messages;
+
+      let list = [];
+      for (let key in MessObg) {
+        list.push(MessObg[key]);
+      }
+      console.log(list);
+    }
+  }, [chatId, chatsDataBase]);
 
   return (
     <main className={styles.container}>
@@ -38,7 +76,10 @@ export const ChatPage = () => {
           <MessageList messageList={messageList} />
         </Route>
 
-        <SideNavBar ChatTitles={ChatTitles} ChatIDs={ChatIDs}></SideNavBar>
+        <SideNavBar
+          ChatTitles={chatTitlesDataBase}
+          ChatIDs={chatIDsDataBase}
+        ></SideNavBar>
       </Container>
     </main>
   );
